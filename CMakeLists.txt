@@ -42,8 +42,11 @@ if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH 0)
 endif()
 
-set( ZMQPP_BUILD_STATIC   true   CACHE BOOL "Build the ZMQPP static library" )
-set( ZMQPP_BUILD_SHARED   true   CACHE BOOL "Build the ZMQPP dynamic library" )
+if(BUILD_SHARED_LIBS)
+  set( ZMQPP_BUILD_SHARED   true   CACHE BOOL "Build the ZMQPP dynamic library" )
+else()
+  set( ZMQPP_BUILD_STATIC   true   CACHE BOOL "Build the ZMQPP static library" )
+endif()
 
 set( ZMQPP_BUILD_EXAMPLES false   CACHE BOOL "Build the ZMQPP examples" )
 set( ZMQPP_BUILD_CLIENT   false   CACHE BOOL "Build the ZMQPP client" )
@@ -135,7 +138,11 @@ if(WIN32)
 endif() # WIN32
 
 include(GenerateExportHeader)
-generate_export_header(zmqpp)
+if (ZMQPP_BUILD_SHARED)
+  generate_export_header(zmqpp)
+else()
+  generate_export_header(zmqpp-static)
+endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # Examples
