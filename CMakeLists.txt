@@ -139,8 +139,10 @@ endif() # WIN32
 
 include(GenerateExportHeader)
 if (ZMQPP_BUILD_SHARED)
+  set(zmqpp_export_header_file zmqpp_export.h)
   generate_export_header(zmqpp)
 else()
+  set(zmqpp_export_header_file zmqpp-static_export.h)
   generate_export_header(zmqpp-static)
 endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -245,6 +247,6 @@ install(
    DESTINATION "${config_install_dir}")
 
 install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/zmqpp_export.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/${zmqpp_export_header_file}"
         DESTINATION "include")
 
